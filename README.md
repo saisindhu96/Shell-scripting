@@ -12,3 +12,9 @@ Topics are
 8. Loops
 
 ###
+
+UNIX -> SH, KSH, CSH
+
+LINUX -> BASH (Born again shell) [ SH + KSH + CSH ]
+
+Bash is default in all Linux OS
