@@ -29,3 +29,5 @@ echo -e "\e[33mHello In YELLOW"
 echo -e "\e[34mHello In BLUE"
 echo -e "\e[35mHello In MAGENETA"
 echo -e "\e[36mHello In CYAN"
+
+echo -e "Intro to colors"
