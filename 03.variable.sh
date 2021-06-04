@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## Declear a variable
- COURSE = DevOps
+COURSE = DevOps
 
 #Access a variable
 
