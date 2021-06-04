@@ -13,3 +13,7 @@ echo Good Evening, Today date is $DATE
 
 NO_OF_USERS=$(who | wc -l)
 echo number of users logged in system = $NO_OF_USERS
+
+ADD=$((2+3+4))
+BIG=$((10+2-3*4/5-7/8%9))
+echo BIG= $BIG
