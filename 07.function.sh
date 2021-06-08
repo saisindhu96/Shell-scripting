@@ -11,5 +11,5 @@ SAMPLE() {
 
 ## Access your function
 a=10
-SAMPLE
+SAMPLE xyz
 echo value of b = $b
