@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo Installing payment
+  @echo Installing payment

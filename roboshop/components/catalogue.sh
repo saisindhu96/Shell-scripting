@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo Installing catalogue
+  @echo Installing catalogue

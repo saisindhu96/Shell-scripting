@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo Installing rabbitmq
+  @echo Installing rabbitmq
