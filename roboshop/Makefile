@@ -1,10 +1,10 @@
 help:
-    @echo
-frontend:   ## Install frontend Component
-    @sh components/frontend.sh
+	@echo
+frontend:	## Install Frontend Component
+	@sh components/frontend.sh
 
-mongodb:    ## Install mongodb Component
-    @sh components/mongodb.sh
+mongodb:	## Install MongoDB Component
+	@sh components/mongodb.sh
 
 catalogue:	## Install Catalogue Component
 	@sh components/catalogue.sh
