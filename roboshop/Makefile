@@ -1,4 +1,3 @@
-#!/bin/bash
 help:
     @echo
 frontend:
