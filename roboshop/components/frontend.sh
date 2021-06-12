@@ -23,7 +23,7 @@ mv /usr/share/nginx/html/static/* /usr/share/nginx/html/. &>>/tmp/roboshop.log
 STAT $?
 
 HEAD "Update nginx configuration"
-mv /usr/share/nginx/html/localhost.conf /et/nginx/default.d/roboshop.conf
+mv /usr/share/nginx/html/localhost.conf /etc/nginx/default.d/roboshop.conf
 STAT $?
 
 HEAD "Update Endpoints in Nginx config"
