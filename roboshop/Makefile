@@ -1,4 +1,5 @@
-help:  ##print Help message
+#!/bin/bash
+help:
     @echo
 frontend:
     @sh components/frontend.sh
