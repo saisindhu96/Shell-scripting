@@ -1,5 +1,8 @@
 help:
     @echo
+common:
+    @sh components/common.sh
+
 frontend:
     @sh components/frontend.sh
 
