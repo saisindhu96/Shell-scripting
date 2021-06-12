@@ -26,9 +26,9 @@ HEAD "Update nginx configuration"
 mv /usr/share/nginx/html/localhost.conf /etc/nginx/default.d/roboshop.conf
 STAT $?
 
-HEAD "Update Endpoints in Nginx config"
-for components in catalogue cart user shipping payment : do
-sed -i -e "/${component}/ s/localhost/${component}.roboshop.internal/" /etc/nginx/default.d/roboshop.conf
+HEAD "Update Endpoints in Nginx Config"
+for component in catalogue cart user shipping payment ; do
+  sed -i -e "/${component}/ s/localhost/${component}.roboshop.internal/" /etc/nginx/default.d/roboshop.conf
 done
 STAT $?
 
