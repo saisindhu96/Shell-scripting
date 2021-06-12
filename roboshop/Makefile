@@ -1,6 +1,5 @@
-help:   ## Print Help Message
-    @fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
-
+help:
+    @echo
 frontend:   ## Install frontend Component
     @sh components/frontend.sh
 
