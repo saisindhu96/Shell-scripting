@@ -1,5 +1,5 @@
 help:
-    @echo
+    @echo help
 frontend:
     @sh components/frontend.sh
 
