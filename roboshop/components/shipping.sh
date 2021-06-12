@@ -1,3 +1,3 @@
 #!/bin/bash
 
-  @echo Installing shipping
+echo Installing shipping

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-  @echo Installing mysql
+echo Installing mysql

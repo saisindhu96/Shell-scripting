@@ -1,3 +1,3 @@
 #!/bin/bash
 
-  @echo Installing mongodb
+echo Installing mongodb

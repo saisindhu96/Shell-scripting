@@ -1,3 +1,3 @@
 #!/bin/bash
 
-  @echo Installing user
+echo Installing user

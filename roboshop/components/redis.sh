@@ -1,3 +1,3 @@
 #!/bin/bash
 
-  @echo Installing redis
+echo Installing redis
