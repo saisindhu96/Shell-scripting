@@ -21,17 +21,15 @@ DNS_UPDATE() {
 
   INSTANCE_STATE=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=${COMPONENT}"  | jq .Reservations[].Instances[].State.Name | xargs -n1)
   if [ "${INSTANCE_STATE}" = "running" ]; then
-    echo "${COMPONENT} Instance already exists!!"
+    echo "Instance already exists!!"
     DNS_UPDATE
     return 0
   fi
 
   if [ "${INSTANCE_STATE}" = "stopped" ]; then
-    echo "${COMPONENT} Instance already exists!!"
+    echo "Instance already exists!!"
     return 0
   fi
 
-  echo -n Instance ${COMPONENT} created - IPADDRESS is
-  aws ec2 run-instances --launch-template LaunchTemplateId=${LID},Version=${LVER}  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${COMPONENT}}]" | jq | grep  PrivateIpAddress  |xargs -n1
-  sleep 10
+  aws ec2 run-instances --launch-template LaunchTemplateId=${LID},Version=${LVER}  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${COMPONENT}}]" | jq
   DNS_UPDATE
