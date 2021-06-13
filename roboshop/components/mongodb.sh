@@ -2,7 +2,6 @@
 
 source components/common.sh
 rm -f /tmp/roboshop.log
-set-hostname mongodb
 
 HEAD "Setup MongoDB yum repo file\t"
 echo '[mongodb-org-4.2]
@@ -14,7 +13,7 @@ gpgkey=https://www.mongodb.org/static/pgp/server-4.2.asc' >/etc/yum.repos.d/mong
 STAT &?
 
 HEAD "Install MongoDB\t\t"
-yum install -y mongodb.org &>>/tmp/roboshop.log
+yum install -y mongodb-org &>>/tmp/roboshop.log
 STAT &?
 
 
