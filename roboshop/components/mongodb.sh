@@ -26,19 +26,6 @@ systemctl enable mongod &>>/tmp/roboshop.log
 systemctl start mongod &>>/tmp/roboshop.log
 STAT &?
 
-Head "Download schema from Github"
-curl -s -L -o /tmp/mongodb.zip "https://github.com/roboshop-devops-project/mongodb/archive/main.zip"
-STAT &?
-
-Head "Extract Downloaded Archive\t\t"
-cd /tmp
-unzip -o mongodb.zip &>>/tmp/roboshop.log
-STAT $?
-
-HEAD "Load Schema\t\t\t"
-cd mongodb-main
-mongo < catalogue.js &>>/tmp/roboshop.log && mongo < users.js &>>/tmp/roboshop.log
-STAT $?
 
 
 
