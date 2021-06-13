@@ -15,25 +15,23 @@ LVER=1
 DNS_UPDATE() {
   PRIVATEIP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=${COMPONENT}"  | jq .Reservations[].Instances[].PrivateIpAddress | xargs -n1)
   sed -e "s/COMPONENT/${COMPONENT}/" -e "s/IPADDRESS/${PRIVATEIP}/" record.json >/tmp/record.json
-  aws route53 change-resource-record-sets --hosted-zone-id Z04221902CM9ZT2GHM1NW --change-batch file:///tmp/record.json | jq
+  aws route53 change-resource-record-sets --hosted-zone-id Z0425287CYMKQ4RMER3W--change-batch file:///tmp/record.json | jq
 }
 
-
+INSTANCE_CREATE() {
   INSTANCE_STATE=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=${COMPONENT}"  | jq .Reservations[].Instances[].State.Name | xargs -n1)
   if [ "${INSTANCE_STATE}" = "running" ]; then
     echo "${COMPONENT} Instance already exists!!"
     DNS_UPDATE
-    exit 0
+    return 0
   fi
 
   if [ "${INSTANCE_STATE}" = "stopped" ]; then
-    echo "Instance already exists!!"
-    exit 0
+    echo "${COMPONENT} Instance already exists!!"
+    return 0
   fi
 
-
- aws ec2 run-instances --launch-template LaunchTemplateId=${LID},Version=${LVER}  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${COMPONENT}}]" | jq
- sleep 30
- PRIVATEIP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=${COMPONENT}"  | jq .Reservations[].Instances[].PrivateIpAddress | xargs -n1)
-  sed -e "s/COMPONENT/${COMPONENT}/" -e "s/IPADDRESS/${PRIVATEIP}/" record.json >/tmp/record.json
-  aws route53 change-resource-record-sets --hosted-zone-id Z0425287CYMKQ4RMER3W --change-batch file:///tmp/record.json | jq
+  echo -n Instance ${COMPONENT} created - IPADDRESS is
+  aws ec2 run-instances --launch-template LaunchTemplateId=${LID},Version=${LVER}  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${COMPONENT}}]" | jq | grep  PrivateIpAddress  |xargs -n1
+  sleep 10
+  DNS_UPDATE
