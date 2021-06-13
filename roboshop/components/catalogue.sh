@@ -26,7 +26,7 @@ cd /home/roboshop && rm -rf catalogue && unzip /tmp/catalogue.zip &>>/tmp/robosh
 STAT $?
 
 HEAD "Install NodeJS Dependencies"
-cd /home/roboshop/catalogue && npn install --unsafe-perm &>>/tmp/roboshop.log
+cd /home/roboshop/catalogue && npm install --unsafe-perm &>>/tmp/roboshop.log
 STAT $?
 
 HEAD "Fix Permissions to App content"
