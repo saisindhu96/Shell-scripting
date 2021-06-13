@@ -32,7 +32,7 @@ for component in catalogue cart user shipping payment ; do
 done
 STAT $?
 
-HEAD "start Nginx\t\t\t\t"
+HEAD "start Nginx\t\t\t"
 systemctl restart nginx &>>/tmp/roboshop.log
 systemctl enable nginx &>>/tmp/roboshop.log
 STAT $?
