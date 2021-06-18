@@ -31,6 +31,10 @@ APP_USER_ADD(){
    HEAD "Setup Systemd service"
 sed -i -e 's/MONGO_DNSNAME/mongodb.roboshop.internal/' -e 's/REDIS_ENDPOINT/redis.roboshop.internal/' -e 's/MONGD_ENDPOINT/mongodb.internal/' /home/roboshop/$1/systemd.service && mv /home/roboshop/$1/systemd.service /etc/systemd/system/$1.service
 STAT $?
+
+HEAD "Start $1 service"
+systemctl daemon-reload && systemctl enable $1 && systemctl restart $1 &>>/tmp/roboshop.log
+STAT $?
 }
 
 NODEJS() {
@@ -58,10 +62,6 @@ HEAD "Fix Permissions to App content"
 chown roboshop:roboshop /home/roboshop -R
 STAT $?
 
-
-HEAD "Start $1 service"
-systemctl daemon-reload && systemctl enable $1 && systemctl restart $1 &>>/tmp/roboshop.log
-STAT $?
 
 SETUP_SYSTEMD "$1"
 }
