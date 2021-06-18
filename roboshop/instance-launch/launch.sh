@@ -12,6 +12,7 @@ LID=lt-0dffc04a2621e4a5f
 LVER=1
 
 ## Validate If Instance is already there
+
 DNS_UPDATE() {
   PRIVATEIP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=${COMPONENT}"  | jq .Reservations[].Instances[].PrivateIpAddress | xargs -n1)
   sed -e "s/COMPONENT/${COMPONENT}/" -e "s/IPADDRESS/${PRIVATEIP}/" record.json >/tmp/record.json
@@ -20,17 +21,19 @@ DNS_UPDATE() {
 
   INSTANCE_STATE=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=${COMPONENT}"  | jq .Reservations[].Instances[].State.Name | xargs -n1)
   if [ "${INSTANCE_STATE}" = "running" ]; then
-    echo "Instance already exists!!"
+    echo "${COMPONENT} Instance already exists!!"
     DNS_UPDATE
     exit 0
   fi
 
   if [ "${INSTANCE_STATE}" = "stopped" ]; then
-    echo "Instance already exists!!"
+    echo "${COMPONENT} Instance already exists!!"
     exit 0
   fi
 
-  aws ec2 run-instances --launch-template LaunchTemplateId=${LID},Version=${LVER}  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${COMPONENT}}]" | jq
-sleep 30
-DNS_UPDATE
+
+  aws ec2 run-instances --launch-template LaunchTemplateId=${LID},Version=${LVER}  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${COMPONENT}}]" | jq | grep  PrivateIpAddress  |xargs -n1
+  sleep 10
+  DNS_UPDATE
+
 
