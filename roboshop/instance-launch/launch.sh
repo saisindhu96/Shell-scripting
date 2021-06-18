@@ -8,7 +8,7 @@ if [ -z "${COMPONENT}" ]; then
   exit 1
 fi
 
-LID=lt-0b7282f61f7dcbf84
+LID=lt-0dffc04a2621e4a5f
 LVER=1
 
 ## Validate If Instance is already there
@@ -22,7 +22,7 @@ DNS_UPDATE() {
   INSTANCE_STATE=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=${COMPONENT}"  | jq .Reservations[].Instances[].State.Name | xargs -n1)
   if [ "${INSTANCE_STATE}" = "running" ]; then
     echo "Instance already exists!!"
-    DNS_UPDATE
+  DNS_UPDATE
     exit 0
   fi
 
