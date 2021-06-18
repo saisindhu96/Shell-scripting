@@ -31,18 +31,19 @@ INSTANCE_CREATE(){
     return 0
   fi
 
-
-  aws ec2 run-instances --launch-template LaunchTemplateId=${LID},Version=${LVER}  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${COMPONENT}}]" | jq
-  sleep 30
+echo -n Instance ${COMPONENT} created - IPADDRESS is
+  aws ec2 run-instances --launch-template LaunchTemplateId=${LID},Version=${LVER}  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${COMPONENT}}]" | jq | grep PrivateIpAddress | xargs -n1
+  sleep 10
   DNS_UPDATE
 }
-if [ "${COMPONENT}" == "all" ]; then
+if [ "${1}" == "all" ]; then
   for components in frontend mongodb catalogue redis user cart mysql shipping rabbitmq payment ; do
   COMPONENT=$components
   INSTANCE_CREATE
     done
     else
   INSTANCE_CREATE
+  COMPONENT=$1
 fi
 
 
