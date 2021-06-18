@@ -45,28 +45,26 @@ cd /home/roboshop && rm -rf $1 && unzip /tmp/$1.zip &>>/tmp/roboshop.log && mv $
 STAT $?
 }
 FIX_APP_CONENT_PERM() {
-HEAD "Fix Permissions to App content"
-chown roboshop:roboshop /home/roboshop -R
-STAT $?
+  HEAD "Fix Permissions to App Content"
+  chown roboshop:roboshop /home/roboshop -R
+  STAT $?
 }
 
 NODEJS() {
-HEAD "Install NodeJs"
-yum install nodejs make gcc-c++ -y &>>/tmp/roboshop.log
-STAT $?
+  HEAD "Install NodeJS\t\t\t"
+  yum install nodejs make gcc-c++ -y &>>/tmp/roboshop.log
+  STAT $?
 
-APP_USER_ADD
+  APP_USER_ADD
+  DOWNLOAD_FROM_GITHUB $1
 
-DOWNLOAD_FROM_GITHUB $1
+  HEAD "Install NodeJS Dependencies\t"
+  cd /home/roboshop/$1 && npm install --unsafe-perm &>>/tmp/roboshop.log
+  STAT $?
 
-HEAD "Install NodeJS Dependencies"
-cd /home/roboshop/$1 && npm install --unsafe-perm &>>/tmp/roboshop.log
-STAT $?
+  FIX_APP_CONENT_PERM
 
-FIX_APP_CONENT_PERM
-
-
-SETUP_SYSTEMD "$1"
+  SETUP_SYSTEMD "$1"
 }
 
 MAVEN() {
@@ -80,7 +78,9 @@ MAVEN() {
   HEAD "Make Application Package"
   cd /home/roboshop/$1 && mvn clean package &>> /tmp/roboshop.log && mv target/$1-1.0.jar $1.jar  &>>/tmp/roboshop.log
   STAT $?
-FIX_APP_CONENT_PERM
+
+  FIX_APP_CONENT_PERM
+
   SETUP_SYSTEMD "$1"
 }
 
@@ -92,7 +92,7 @@ PYTHON3() {
   APP_USER_ADD
   DOWNLOAD_FROM_GITHUB $1
 
-   HEAD "Install Python Deps"
+  HEAD "Install Python Deps"
   cd /home/roboshop/$1 && pip3 install -r requirements.txt &>>/tmp/roboshop.log
   STAT $?
 
