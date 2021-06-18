@@ -4,6 +4,7 @@ source components/common.sh
 rm -f /tmp/roboshop.log
 set-hostname rabbitmq
 
+
 HEAD "Install ERLANG"
 yum list installed | grep erlang &>>/tmp/roboshop.log
 if [ $? -eq 0 ]; then
