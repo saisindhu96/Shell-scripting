@@ -36,6 +36,14 @@ HEAD "Start $1 service"
 systemctl daemon-reload && systemctl enable $1 && systemctl restart $1 &>>/tmp/roboshop.log
 STAT $?
 }
+DOWNLOAD_FROM_GITHUB() {
+HEAD "Download App from GitHub"
+curl -s -L -o /tmp/$1.zip "https://github.com/roboshop-devops-project/$1/archive/main.zip" &>>/tmp/roboshop.log
+STAT $?
+HEAD "Extract the Downloaded Archive"
+cd /home/roboshop && rm -rf $1 && unzip /tmp/$1.zip &>>/tmp/roboshop.log && mv $1-main $1
+STAT $?
+}
 
 NODEJS() {
 HEAD "Install NodeJs"
@@ -44,15 +52,7 @@ STAT $?
 
 APP_USER_ADD
 
-HEAD "Download App from GitHub"
-curl -s -L -o /tmp/$1.zip "https://github.com/roboshop-devops-project/$1/archive/main.zip" &>>/tmp/roboshop.log
-STAT $?
-
-
-
-HEAD "Extract the Downloaded Archive"
-cd /home/roboshop && rm -rf $1 && unzip /tmp/$1.zip &>>/tmp/roboshop.log && mv $1-main $1
-STAT $?
+DOWNLOAD_FROM_GITHUB $1
 
 HEAD "Install NodeJS Dependencies"
 cd /home/roboshop/$1 && npm install --unsafe-perm &>>/tmp/roboshop.log
@@ -66,3 +66,22 @@ STAT $?
 SETUP_SYSTEMD "$1"
 }
 
+MAVEN() {
+  HEAD "Install Maven"
+  yum install maven -y &>>/tmp/roboshop.log
+  STAT $?
+
+  APP_USER_ADD
+  DOWNLOAD_FROM_GITHUB $1
+
+  HEAD "Make Application Package"
+  cd /home/roboshop/$1 && mvn clean package &>> /tmp/roboshop.log && mv target/$1-1.0.jar $1.jar  &>>/tmp/roboshop.log
+  STAT $?
+
+  FIX_APP_CONENT_PERM
+
+  SETUP_SYSTEMD "$1"
+}
+
+
+}
