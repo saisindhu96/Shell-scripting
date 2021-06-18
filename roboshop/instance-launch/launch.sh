@@ -31,6 +31,6 @@ DNS_UPDATE() {
   fi
 
   aws ec2 run-instances --launch-template LaunchTemplateId=${LID},Version=${LVER}  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${COMPONENT}}]" | jq
-sleep 10
+sleep 30
 DNS_UPDATE
 
