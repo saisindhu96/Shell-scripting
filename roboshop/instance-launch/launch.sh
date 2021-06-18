@@ -33,7 +33,7 @@ DNS_UPDATE() {
 
 
   aws ec2 run-instances --launch-template LaunchTemplateId=${LID},Version=${LVER}  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${COMPONENT}}]" | jq | grep  PrivateIpAddress  |xargs -n1
-  sleep 10
+  sleep 30
   DNS_UPDATE
 
 
