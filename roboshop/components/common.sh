@@ -95,4 +95,13 @@ PYTHON3() {
    HEAD "Install Python Deps"
   cd /home/roboshop/$1 && pip3 install -r requirements.txt &>>/tmp/roboshop.log
   STAT $?
+
+  USER_ID=$(id -u roboshop)
+  GROUP_ID=$(id -g roboshop)
+
+  HEAD "Update App Configuration"
+  sed -i -e "/uid/ c uid=${USER_ID}" -e "/gid/ c gid=${GROUP_ID}" /home/roboshop/$1/$1.ini
+  STAT $?
+
+  SETUP_SYSTEMD "$1"
 }
